@@ -1,3 +1,7 @@
+using KeyedServicesWithBreaker.Models;
+using KeyedServicesWithBreaker.Services;
+using KeyedServicesWithBreaker.Services.Provider;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<PaymentProviderOptions>(builder.Configuration.GetSection("PaymentProviders"));
+builder.Services.AddKeyedScoped<IPaymentService, PaystackPaymentService>("paystack");
+builder.Services.AddKeyedScoped<IPaymentService, FlutterwavePaymentService>("flutterwave");
+builder.Services.AddScoped<PaymentProviderSelector>();
+builder.Services.AddScoped<PaymentProcessorService>();
+builder.Services.AddScoped<Func<string, IPaymentService>>(
+    sp => key => sp.GetRequiredKeyedService<IPaymentService>(key) // resolver delegate
+);
+builder.Services.AddSingleton<IPaymentExecutionEngine, PaymentExecutionEngine>();
+builder.Services.AddSingleton<IProviderMetricsRegistry, ProviderMetricsRegistry>();
+
 
 var app = builder.Build();
 
@@ -13,6 +30,9 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

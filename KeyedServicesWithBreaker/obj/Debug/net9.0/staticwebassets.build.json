@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "PZ9S6e/Zij3/V+O+j5+kjRnq+1iV+Rs5ZZQpz4pU/FQ=",
+  "Source": "KeyedServicesWithBreaker",
+  "BasePath": "_content/KeyedServicesWithBreaker",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
