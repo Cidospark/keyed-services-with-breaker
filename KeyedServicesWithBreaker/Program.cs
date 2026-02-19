@@ -11,11 +11,34 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpClient<PaystackPaymentService>("paystack", c =>
+{
+    c.BaseAddress = new Uri("https://api.paystack.co");
+});
+
+builder.Services.AddHttpClient<FlutterwavePaymentService>("flutterwave", c =>
+{
+    c.BaseAddress = new Uri("https://api.flutterwave.com");
+});
+
 builder.Services.Configure<PaymentProviderOptions>(builder.Configuration.GetSection("PaymentProviders"));
-builder.Services.AddKeyedScoped<IPaymentService, PaystackPaymentService>("paystack");
-builder.Services.AddKeyedScoped<IPaymentService, FlutterwavePaymentService>("flutterwave");
+builder.Services.AddKeyedScoped<IPaymentService>("paystack", (sp, key) =>
+{
+    var factory = sp.GetRequiredService<IHttpClientFactory>();
+    var http = factory.CreateClient("paystack");
+    return new PaystackPaymentService(http);
+});
+
+builder.Services.AddKeyedScoped<IPaymentService>("flutterwave", (sp, key) =>
+{
+    var factory = sp.GetRequiredService<IHttpClientFactory>();
+    var http = factory.CreateClient("flutterwave");
+    return new FlutterwavePaymentService(http);
+});
 builder.Services.AddScoped<PaymentProviderSelector>();
 builder.Services.AddScoped<PaymentProcessorService>();
+builder.Services.AddScoped<ProcessPaymentCommandHandler>();
+builder.Services.AddTransient<IProviderPolicyRegistry, ProviderPolicyRegistry>();
 builder.Services.AddScoped<Func<string, IPaymentService>>(
     sp => key => sp.GetRequiredKeyedService<IPaymentService>(key) // resolver delegate
 );

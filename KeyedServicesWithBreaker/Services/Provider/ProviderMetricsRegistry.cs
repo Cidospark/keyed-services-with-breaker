@@ -6,12 +6,12 @@ namespace KeyedServicesWithBreaker.Services.Provider
     public class ProviderMetricsRegistry : IProviderMetricsRegistry
     {
         private readonly ConcurrentDictionary<string, ProviderMetricsModel> _metrics = new();
-        public ProviderMetricsModel Get(string providerName)
+        public ProviderMetricsModel GetMetrics(string providerName)
         {
             return _metrics.GetOrAdd(providerName, _ => new ProviderMetricsModel());
         }
 
-        public IReadOnlyList<ProviderScore> GetProviderScores()
+        public IReadOnlyList<ProviderScore> GetScores()
         {
             return _metrics.Select(kvp =>
             {

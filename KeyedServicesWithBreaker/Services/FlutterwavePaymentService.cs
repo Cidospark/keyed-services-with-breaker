@@ -2,19 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KeyedServicesWithBreaker.Shared;
 
 namespace KeyedServicesWithBreaker.Services
 {
-    public class FlutterwavePaymentService : IPaymentService
+    public class FlutterwavePaymentService : PaymentProviderBase
     {
-         public string Name => "flutterwave";
+         public override string Name => "flutterwave";
 
-        public Task<bool> IsHealthyAsync()
-        {
-            // Simulated health check
-            return Task.FromResult(true);
-        }
-        public Task ProcessAsync(decimal amount)
+         public FlutterwavePaymentService(HttpClient http) : base(http) { }
+
+        public override Task ProcessAsync(decimal amount)
         {
             Console.WriteLine($"Processing ₦{amount} via Flutterwave");
             return Task.CompletedTask;

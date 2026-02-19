@@ -12,19 +12,24 @@ namespace KeyedServicesWithBreaker.Services
     {
         private readonly Func<string, IPaymentService> _resolver;
         private readonly IProviderMetricsRegistry _metrics;
+        private readonly string[] _priorityOrder;
 
-        public PaymentProviderSelector(Func<string, IPaymentService> resolver, IProviderMetricsRegistry metrics)
+        public PaymentProviderSelector(Func<string, IPaymentService> resolver, IProviderMetricsRegistry metrics, IOptions<PaymentProviderOptions> options)
         {
             _resolver = resolver;
             _metrics = metrics;
+            _priorityOrder = options.Value.PriorityOrder;
         }
         
         public async Task<IPaymentService> GetHealthyProviderAsync()
         {
-            var orderedProviderScores = _metrics.GetProviderScores();
-            foreach (var ps in orderedProviderScores)
+            var orderedProviderScores = _metrics.GetScores();
+            string[] providers = [];
+            providers = orderedProviderScores.Count > 0 ? orderedProviderScores.Select(x => x.Provider).ToArray() : _priorityOrder;
+             
+            foreach (var p in providers)
             {
-                var provider = _resolver(ps.Provider);
+                var provider = _resolver(p);
                 if (await provider.IsHealthyAsync())
                 {
                     return provider;

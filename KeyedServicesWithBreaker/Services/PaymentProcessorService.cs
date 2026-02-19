@@ -23,7 +23,7 @@ namespace KeyedServicesWithBreaker.Services
         public async Task ProcessPaymentAsync(decimal amount)
         {
             var provider = await _selector.GetHealthyProviderAsync();
-            var providerMetrics = _metrics.Get(provider.Name);
+            var providerMetrics = _metrics.GetMetrics(provider.Name);
             try
             {
                 await _engine.ExecuteAsync(provider, amount);

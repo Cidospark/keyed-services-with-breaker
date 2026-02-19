@@ -26,7 +26,7 @@ namespace KeyedServicesWithBreaker.Services
         public async Task HandleAsync(ProcessPaymentCommand command)
         {
             var provider = await _selector.GetHealthyProviderAsync();
-            var metrics = _metrics.Get(provider.Name);
+            var metrics = _metrics.GetMetrics(provider.Name);
 
             try
             {

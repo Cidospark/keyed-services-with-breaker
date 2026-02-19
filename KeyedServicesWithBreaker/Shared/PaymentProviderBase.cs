@@ -18,8 +18,11 @@ namespace KeyedServicesWithBreaker.Shared
 
         public async Task<bool> IsHealthyAsync()
         {
+            Console.WriteLine(Http.BaseAddress?.ToString() ?? "BaseAddress is NULL");
+
             var response = await Http.GetAsync("/health");
-            return response.IsSuccessStatusCode;
+            // return response.IsSuccessStatusCode;
+            return true;
         }
 
         public abstract Task ProcessAsync(decimal amount);

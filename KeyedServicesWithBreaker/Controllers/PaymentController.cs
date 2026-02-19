@@ -18,9 +18,9 @@ namespace KeyedServicesWithBreaker.Controllers
         }
 
         [HttpPost]   
-        public async Task<IActionResult> Post(ProcessPaymentCommand command)
+        public async Task<IActionResult> Post(decimal amount)
         {
-            await _handler.HandleAsync(command);
+            await _handler.HandleAsync(new ProcessPaymentCommand(amount));
             return Ok("Done!");
         }
 

@@ -4,7 +4,7 @@ namespace KeyedServicesWithBreaker.Services.Provider
 {
     public interface IProviderMetricsRegistry
     {
-        ProviderMetricsModel Get(string providerName);
-        IReadOnlyList<ProviderScore> GetProviderScores();
+        ProviderMetricsModel GetMetrics(string providerName);
+        IReadOnlyList<ProviderScore> GetScores();
     }
 }
