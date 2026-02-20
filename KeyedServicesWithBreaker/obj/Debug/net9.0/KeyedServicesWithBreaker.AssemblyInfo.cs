@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KeyedServicesWithBreaker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+09a0c6a77f6459cdc4914e23bbe659369f28923d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+193788769bd10984d3def2c17a6b5f3d9d075f00")]
 [assembly: System.Reflection.AssemblyProductAttribute("KeyedServicesWithBreaker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KeyedServicesWithBreaker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -14,11 +14,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient<PaystackPaymentService>("paystack", c =>
 {
     c.BaseAddress = new Uri("https://api.paystack.co");
+    c.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_PAYSTACK_KEY");
 });
 
 builder.Services.AddHttpClient<FlutterwavePaymentService>("flutterwave", c =>
 {
     c.BaseAddress = new Uri("https://api.flutterwave.com");
+    c.DefaultRequestHeaders.Add("Authorization", "Bearer YOUR_FLUTTERWAVE_KEY");
 });
 
 builder.Services.Configure<PaymentProviderOptions>(builder.Configuration.GetSection("PaymentProviders"));
